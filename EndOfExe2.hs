@@ -6,8 +6,6 @@
 --
 -- A small library to deal with executable endings. Uses a Maybe data representation inside an IO monad.
 --
--- Poorly tested for Windows (just Windows 7). Well, it can be extended so that it can basically support also other versions and OSes.
---
 -- It is a fork of now deprecated library [mmsyn3](https://hackage.haskell.org/package/mmsyn3).
 
 {-# LANGUAGE NoImplicitPrelude #-}
@@ -69,7 +67,7 @@ showE0 xs
   | otherwise = unsafePerformIO . endOfExe $ xs
 {-# INLINE showE0 #-}
 
--- | If executable not found, then returns empty 'String'.
+-- | If executable not found, then returns empty 'String'. Uses 'unsafeDupablePerformIO'.
 showE0Dup :: String -> String
 showE0Dup xs 
   | null xs = ""
