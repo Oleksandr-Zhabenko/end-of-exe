@@ -8,28 +8,7 @@
 --
 -- Poorly tested for Windows (just Windows 7). Well, it can be extended so that it can basically support also other versions and OSes.
 --
--- Is a fork of now deprecated library [mmsyn3](https://hackage.haskell.org/package/mmsyn3).
-
-homepage:            https://hackage.haskell.org/package/end-of-exe
-license:             MIT
-license-file:        LICENSE
-author:              OleksandrZhabenko
-maintainer:          oleksandr.zhabenko@yahoo.com
-copyright:           Oleksandr Zhabenko
-bug-reports:         https://github.com/Oleksandr-Zhabenko/end-of-exe/issues
-category:            System
-build-type:          Simple
-extra-source-files:  ChangeLog.md
-cabal-version:       >=1.10
-
-library
-  exposed-modules:     EndOfExe
-  -- other-modules:
-  -- other-extensions:
-  build-depends:       base >=4.13 && <5, directory >=1.3.4.0 && <2
-  -- hs-source-dirs:
-  default-language:    Haskell2010
-
+-- It is a fork of now deprecated library [mmsyn3](https://hackage.haskell.org/package/mmsyn3).
 
 {-# LANGUAGE NoImplicitPrelude #-}
 {-# OPTIONS_HADDOCK -show-extensions #-}
