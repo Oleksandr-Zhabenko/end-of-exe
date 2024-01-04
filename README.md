@@ -17,4 +17,3 @@ using the URL:
 or 
 
 [Donation Page](https://gastrostars.nl/doneren)
-
