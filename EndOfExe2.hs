@@ -18,47 +18,61 @@ module EndOfExe2 where
 import GHC.Base
 import GHC.List
 import qualified System.Directory as D (findExecutable)
-import Data.Maybe (isJust,isNothing)
+import Data.Maybe (isJust,isNothing,fromJust)
 import System.IO.Unsafe (unsafePerformIO,unsafeDupablePerformIO)
 
 -- | Can be used instead of 'System.Info.os' to check whether the executable ends in \".exe\". The function returns 'IO' 'Nothing' if there is neither 
--- @ys@ nor @(ys ++ ".exe")@ names for executables in the variable @PATH@. It can also search in other locations and its behaviour is OS dependent. For more information, please, refer to the link: https://hackage.haskell.org/package/directory-1.3.4.0/docs/System-Directory.html#v:findExecutable
+-- @ys@ nor @(ys ++ ".exe")@ names for executables in the search path. It can also search in other locations and its behaviour is OS dependent. For more information, please, refer to the link: https://hackage.haskell.org/package/directory-1.3.4.0/docs/System-Directory.html#v:findExecutable
 maybeEndOfExecutable :: String -> IO (Maybe String)
 maybeEndOfExecutable ys = do
   xs <- D.findExecutable ys
   if isJust xs 
-    then return $ fmap (ys ++) (Just "")
+    then return xs
     else do
       zs <- D.findExecutable (ys ++ ".exe")
       if isJust zs
-        then return $ fmap (ys ++) (Just ".exe")
-        else error ("EndOfExe2.maybeEndOfExecutable: Please, install the executable " ++ ys ++ " into the directory in the PATH variable!")
+        then return zs
+        else return Nothing
 
--- | The function 'endOfExe' returns 'IO' \"\" if no executable found by 'D.findExecutable'. Otherwise, it returns its path.
+-- | The function 'endOfExe' returns 'IO' \"\" if no executable found by 'D.findExecutable'. Otherwise, it returns its path in the 'IO' monad.
 endOfExe :: String -> IO String
 endOfExe ys = do
   xs <- D.findExecutable ys
   if isJust xs 
-    then return . fromJust $ ys
+    then return . fromJust $ xs
     else do
       zs <- D.findExecutable (ys ++ ".exe")
       if isJust zs
-        then return $ (ys ++ ".exe")
-        else error ("EndOfExe2.endOfExe: Please, install the executable " ++ ys ++ " into the directory in the PATH variable!")
+        then return . fromJust $ zs
+        else return ""
                                   
 -- | Gets the proper name of the executable in the system (it must be seen in the directories in the @PATH@ variable). 
--- You can use 'showE' \"nameOfExecutable\" to get 'Just' \"nameOfExecutable\"@ if it is present on the system. Further you can adopt it to be used 
+-- Further you can adopt it to be used 
 -- inside the 'System.Process.callCommand' as the name of the executable
 showE :: String -> Maybe String
 showE xs 
-  | null xs = error "EndOfExe2.showE: No executable specified!"
-  | otherwise = unsafePerformIO . endOfExecutable $ xs
+  | null xs = Nothing
+  | otherwise = unsafePerformIO . maybeEndOfExecutable $ xs
 {-# INLINE showE #-}
 
 -- | Similar to 'showE' but uses 'unsafeDupablePerformIO', which is more efficient, but for the multiprocessor can lead to executing the IO action multiple times.
 showEDup :: String -> Maybe String
 showEDup xs 
-  | null xs = error "EndOfExe2.showEDup: No executable specified!"
-  | otherwise = unsafeDupablePerformIO . endOfExecutable $ xs
+  | null xs = Nothing
+  | otherwise = unsafeDupablePerformIO . maybeEndOfExecutable $ xs
 {-# INLINE showEDup #-}
+
+-- | If executable not found, then returns empty 'String'.
+showE0 :: String -> String
+showE0 xs 
+  | null xs = ""
+  | otherwise = unsafePerformIO . endOfExe $ xs
+{-# INLINE showE0 #-}
+
+-- | If executable not found, then returns empty 'String'.
+showE0Dup :: String -> String
+showE0Dup xs 
+  | null xs = ""
+  | otherwise = unsafeDupablePerformIO . endOfExe $ xs
+{-# INLINE showE0Dup #-}
 
