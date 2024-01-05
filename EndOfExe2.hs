@@ -20,7 +20,8 @@ import Data.Maybe (isJust,isNothing,fromJust)
 import System.IO.Unsafe (unsafePerformIO,unsafeDupablePerformIO)
 
 -- | Can be used instead of 'System.Info.os' to check whether the executable ends in \".exe\". The function returns 'IO' 'Nothing' if there is neither 
--- @ys@ nor @(ys ++ ".exe")@ names for executables in the search path. It can also search in other locations and its behaviour is OS dependent. For more information, please, refer to the link: https://hackage.haskell.org/package/directory-1.3.4.0/docs/System-Directory.html#v:findExecutable
+-- @ys@ nor @(ys ++ ".exe")@ names for executables in the search path. It can also search in other locations and its behaviour is OS dependent. For more information, please, refer to the link: <https://hackage.haskell.org/package/directory-1.3.4.0/docs/System-Directory.html#v:findExecutable>
+-- For more information, how the executable is searched, see also the following address: <https://hackage.haskell.org/package/process-1.6.18.0/docs/System-Process.html#t:CmdSpec> 
 maybeEndOfExecutable :: String -> IO (Maybe String)
 maybeEndOfExecutable ys = do
   xs <- D.findExecutable ys

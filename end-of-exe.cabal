@@ -2,7 +2,7 @@
 -- documentation, see http://haskell.org/cabal/users-guide/
 
 name:                end-of-exe
-version:             0.1.1.0
+version:             0.1.2.0
 synopsis:            A small library to deal with executable endings
 description:         
    A small library to deal with executable endings. Uses a Maybe data representation inside an IO monad. 

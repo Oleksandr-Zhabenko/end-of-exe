@@ -1,9 +1,11 @@
  Devotion
  ========
 
-P.S.: the author would like to devote this project to support the [Foundation Gastrostars](https://gastrostars.nl).
+The author would like to devote this project to support the [Foundation Gastrostars](https://gastrostars.nl).
 
 The foundation founder is [Emma Kok](https://www.emmakok.nl).
+
+On the 05/01/2024 Emma starts a world tour with [André Rieu and Johann Strauss Orchestra](https://www.andrerieu.com).
 
 Besides, you can support Ukraine and Ukrainian people. 
 
